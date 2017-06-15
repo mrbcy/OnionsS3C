@@ -37,7 +37,7 @@ import tv.guanghe.datadev.s3c.util.FileUtil;
  *
  */
 public class FileSearchDemo {
-	public static final String INDEX_PATH = "E:\\lucene_index"; // 存放Lucene索引文件的位置
+	public static final String INDEX_PATH = "E:\\lucene_index2"; // 存放Lucene索引文件的位置
 	public static final String SCAN_PATH = "E:\\rlib"; // 需要被扫描的位置，测试的时候记得多在这下面放一些文件
 	
 	/**

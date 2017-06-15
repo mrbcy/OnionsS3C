@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import tv.guanghe.datadev.s3c.bean.Doc;
 import tv.guanghe.datadev.s3c.dao.DocDao;
 import tv.guanghe.datadev.s3c.util.DBCPUtil;
+import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class DocDaoImpl implements DocDao {
 	
@@ -22,6 +23,11 @@ public class DocDaoImpl implements DocDao {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public List<Doc> getSearchResult(String keyword) {
+		return DocSearchUtil.search(keyword);
 	}
 
 }

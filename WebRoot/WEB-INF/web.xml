@@ -4,6 +4,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <filter>
+    <filter-name>AllCharacterEncodingFilter</filter-name>
+    <filter-class>tv.guanghe.datadev.s3c.filter.AllCharacterEncodingFilter</filter-class>
+  </filter>
+  <servlet>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>tv.guanghe.datadev.s3c.servlet.SearchServlet</servlet-class>
+  </servlet>
+  <filter-mapping>
+    <filter-name>AllCharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
   <display-name></display-name>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

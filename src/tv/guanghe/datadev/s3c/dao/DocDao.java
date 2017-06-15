@@ -12,4 +12,11 @@ public interface DocDao {
 	 */
 	List<Doc> getAllDocs();
 
+	/**
+	 * 根据关键字进行文档的搜索
+	 * @param keyword 关键字
+	 * @return 没有匹配的文档则返回空的list
+	 */
+	List<Doc> getSearchResult(String keyword);
+
 }
