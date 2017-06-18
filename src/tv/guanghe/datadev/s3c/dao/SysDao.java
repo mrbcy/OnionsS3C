@@ -1,4 +1,4 @@
-package tv.guanghe.datadev.s3c.service;
+package tv.guanghe.datadev.s3c.dao;
 
 public interface SysDao {
 

@@ -1,8 +1,33 @@
 html, 
 body {
-   height:100%;
    font-family: Arial, sans-serif;
    font-size: 13px;
+   background: #D4D4D4;
+}
+
+hr{
+	margin: 20px 0px;
+}
+
+pre{
+	PADDING-RIGHT: 0.5em; 
+	MARGIN-TOP: 1em; 
+	PADDING-LEFT: 0.5em; 
+	FONT-SIZE: 16px; 
+	MARGIN-BOTTOM: 1em; 
+	PADDING-BOTTOM: 0.5em; 
+	MARGIN-LEFT: 0pt; 
+	PADDING-TOP: 0.5em; 
+	FONT-FAMILY: "Courier New"; 
+	BACKGROUND-COLOR: #F0F0F0;
+	border: 1px solid #888888;
+	white-space: pre-wrap; 
+	word-wrap: break-word;
+	line-height: 1.8em;
+}
+
+p{
+	line-height: 1.8em;
 }
 
 * {
@@ -25,12 +50,13 @@ a:link:hover {
 }
 
 #container {	
+	height: 100%;
 }
 
 /* HEADER start*/
 #header {
 	background-color: #f1f1f1;
-	height: 60px;
+	height: 45px;
 	min-width: 1000px;
 	border-bottom: 1px solid #e5e5e5;
 }
@@ -276,8 +302,10 @@ a:link:hover {
 /* BODY start */
 #body {
 	height: 100%;
-	margin-left: 130px;
-	width: 595px;
+    margin: 0px 14.44%;
+    width: auto;
+    background-color: white;
+    padding: 30px 120px;
 }
 
 .linkdesc{
@@ -447,3 +475,4 @@ footer nav, #location {
 }
 
 /* FOOTER end */
+

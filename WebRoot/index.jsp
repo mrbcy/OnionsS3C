@@ -10,6 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<title>Onions S3C</title>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/cssreset.css">
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/home_main.css">
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/icon/favicon.png">
 		<meta charset="UTF-8">
 	</head>
 	<body>

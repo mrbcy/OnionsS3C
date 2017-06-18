@@ -13,10 +13,10 @@
 		
 		<nav class="side-menu content mCustomScrollbar" data-mcs-theme="minimal-dark">
 			<h2>
-                <a href="index.html" class="InitialPage"><i class="icon-laptop"></i>文档管理</a>
+                <a href="${pageContext.request.contextPath}/admin/index.jsp" class="InitialPage"><i class="icon-laptop"></i>文档管理</a>
 			</h2>
             <h2>
-                <a href="index.html" class="InitialPage"><i class="icon-font"></i>自定义词典管理</a>
+                <a href="${pageContext.request.contextPath}/admin/dict.jsp" class="InitialPage"><i class="icon-font"></i>自定义词典管理</a>
             </h2>
 		</nav>
 		<footer class="side-footer">© Powered by Datadev</footer>

@@ -33,11 +33,11 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import tv.guanghe.datadev.s3c.bean.Doc;
+import tv.guanghe.datadev.s3c.dao.SysDao;
+import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
 import tv.guanghe.datadev.s3c.global.SystemConfigProperties;
 import tv.guanghe.datadev.s3c.service.DocService;
-import tv.guanghe.datadev.s3c.service.SysDao;
 import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
-import tv.guanghe.datadev.s3c.service.impl.SysDaoImpl;
 
 public class DocSearchUtil {
 	public static final DocService docService = new DocServiceImpl();
@@ -169,6 +169,13 @@ public class DocSearchUtil {
 					doc.setContent(highlighter.getBestFragment(analyzer, "content", content));
 					doc.setTitle(document.get("title"));
 					doc.setUrl(document.get("url"));
+					int id = 0;
+					try {
+						id = Integer.parseInt(document.get("id"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					doc.setId(id);
 					docs.add(doc);
 				}
 			}

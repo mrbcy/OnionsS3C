@@ -1,11 +1,11 @@
-package tv.guanghe.datadev.s3c.service.impl;
+package tv.guanghe.datadev.s3c.dao.impl;
 
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import tv.guanghe.datadev.s3c.service.SysDao;
+import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.util.DBCPUtil;
 
 public class SysDaoImpl implements SysDao {
@@ -16,6 +16,7 @@ public class SysDaoImpl implements SysDao {
 		try {
 			if(getProperty(key) != null){
 				qr.update("update sys_configs set s_value=? where s_key=?",value,key);
+				return;
 			}
 			qr.update("insert into sys_configs(s_key,s_value) values(?,?)",key,value);
 		} catch (SQLException e) {

@@ -24,3 +24,4 @@ hs_err_pid*
 .myeclipse/
 .settings
 .classpath
+WebRoot/WEB-INF/classes

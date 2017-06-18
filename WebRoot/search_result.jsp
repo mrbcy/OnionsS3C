@@ -11,6 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<head>
 		<title>Onions S3C</title>
 		<link style="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/search_result_main.css">
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/icon/favicon.png">
 		<meta charset="UTF-8">
 	</head>
 	<body>
@@ -49,7 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div>
 							<a href="${doc.url }" target="_blank"><h3>${doc.title }</h3></a>
 							<span class="result-url">${doc.url }</span>
-							<a href="#"><span class="link-arrow"></span></a>
+							<a href="${pageContext.request.contextPath}/cache?id=${doc.id }&highlight=${keyword}" target="_blank">
+							<span class="link-arrow" style="margin-right:8px"></span>
+							文档快照</a>
 							<p class="linkdesc">${doc.content }</p>
 						</div>
 					</c:forEach>
