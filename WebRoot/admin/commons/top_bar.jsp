@@ -9,7 +9,7 @@
 						<a href="#" target="_blank"><i class="icon-home"></i>前台访问</a>
 					</li>
 					<li>
-						<a><i class="icon-random"></i>重建索引</a>
+						<a href="${pageContext.request.contextPath}/admin/AdminServlet?op=rebuildIndex"><i class="icon-random"></i>重建索引</a>
 					</li>
 					<li>
 						<a><i class="icon-user"></i>管理员:<em>master</em></a>

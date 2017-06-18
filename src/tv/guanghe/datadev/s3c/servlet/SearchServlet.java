@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import tv.guanghe.datadev.s3c.commons.Page;
 import tv.guanghe.datadev.s3c.service.DocService;
 import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
+import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class SearchServlet extends HttpServlet{
 	private DocService docService = new DocServiceImpl();
@@ -30,6 +31,8 @@ public class SearchServlet extends HttpServlet{
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			return;
 		}
+		String lastIndexModifiedTiem = DocSearchUtil.getIndexLastModifiedTime();
+		request.setAttribute("lastIndexModifiedTiem", lastIndexModifiedTiem);
 		request.setAttribute("keyword", keyword);
 		// 获得搜索结果
 		Page page = docService.searchDocsByPage(keyword, request.getParameter("pageNum"));

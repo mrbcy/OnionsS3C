@@ -13,6 +13,7 @@ import tv.guanghe.datadev.s3c.bean.Doc;
 import tv.guanghe.datadev.s3c.commons.Page;
 import tv.guanghe.datadev.s3c.service.DocService;
 import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
+import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class AdminServlet extends HttpServlet {
 	private DocService docService = new DocServiceImpl();
@@ -46,6 +47,9 @@ public class AdminServlet extends HttpServlet {
 			}else if ("deleteDoc".equals(op)) {
 				// 删除文档
 				deleteDoc(request, response);
+			}else if ("rebuildIndex".equals(op)) {
+				// 重建索引
+				rebuildIndex(request, response);
 			}else{
 				response.sendRedirect(request.getContextPath()+"/admin");
 			}
@@ -56,13 +60,12 @@ public class AdminServlet extends HttpServlet {
 
 	}
 	
-	private void editDocUI(HttpServletRequest request, HttpServletResponse response) 
+	private void rebuildIndex(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		String id = request.getParameter("id");
-		Doc doc = docService.getDocById(id);
-		request.setAttribute("doc",doc);
-		request.getRequestDispatcher("/admin/edit_doc.jsp").forward(request, response);
-
+		
+		DocSearchUtil.rebuildIndex();
+		redirectSuccess(request, response, "操作成功", "搜索索引将在稍后更新完毕...", "/admin/index.jsp");
+		
 	}
 	
 	private void deleteDoc(HttpServletRequest request, HttpServletResponse response) 
@@ -123,6 +126,14 @@ public class AdminServlet extends HttpServlet {
 
 	}
 	
+	private void editDocUI(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		String id = request.getParameter("id");
+		Doc doc = docService.getDocById(id);
+		request.setAttribute("doc",doc);
+		request.getRequestDispatcher("/admin/edit_doc.jsp").forward(request, response);
+
+	}
 	
 	private void getDocs(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {

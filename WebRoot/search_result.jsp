@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<div id="body">
 				<div>
-					<p id="results-count">About ${page.totalRecordsNum } results (index updated at 2017-06-15 12:17:33)</p>
+					<p id="results-count">About ${page.totalRecordsNum } results (index updated at ${lastIndexModifiedTiem })</p>
 				</div>
 				<c:if test="${empty page.records }">
 					<div style="height:500px; width: 480px; font-size:20px; display: table-cell;">

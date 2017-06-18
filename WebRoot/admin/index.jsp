@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </section>
             <div style="margin-bottom: 15px">
                 <a href="${pageContext.request.contextPath}/admin/add_doc.jsp" class="btn btn-secondary">添加文档</a>
-                <button class="btn btn-warning">重建索引</button>
+                <a href="${pageContext.request.contextPath}/admin/AdminServlet?op=rebuildIndex" class="btn btn-warning">重建索引</a>
             </div>
             <div></div>
             <table class="table table-bordered table-striped table-hover">

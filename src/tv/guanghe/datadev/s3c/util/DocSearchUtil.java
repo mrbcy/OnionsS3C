@@ -1,8 +1,13 @@
 package tv.guanghe.datadev.s3c.util;
 
 import java.nio.file.FileSystems;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -25,58 +30,101 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import tv.guanghe.datadev.s3c.bean.Doc;
+import tv.guanghe.datadev.s3c.global.SystemConfigProperties;
 import tv.guanghe.datadev.s3c.service.DocService;
+import tv.guanghe.datadev.s3c.service.SysDao;
 import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
+import tv.guanghe.datadev.s3c.service.impl.SysDaoImpl;
 
 public class DocSearchUtil {
 	public static final DocService docService = new DocServiceImpl();
 	public static final String INDEX_PATH = "E:\\lucene_index"; // 存放Lucene索引文件的位置
+	private static ReadWriteLock rwLock = new ReentrantReadWriteLock();
+	private static String lastModifiedTime;
+	private static SysDao sysDao = new SysDaoImpl();
+	
+	public static class BuildIndexRunner implements Runnable{
+		
+		private ReadWriteLock rwLock;
+
+		public BuildIndexRunner(ReadWriteLock rwLock){
+			this.rwLock = rwLock;
+		}
+
+		@Override
+		public void run() {
+			rwLock.writeLock().lock();
+			IndexWriter indexWriter = null;
+			try
+			{
+				Directory directory = FSDirectory.open(FileSystems.getDefault().getPath(INDEX_PATH));
+				//Analyzer analyzer = new StandardAnalyzer();
+				Analyzer analyzer = new IKAnalyzer(true);
+				IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+				indexWriter = new IndexWriter(directory, indexWriterConfig);
+				indexWriter.deleteAll();// 清除以前的index
+				
+				// 得到所有的文档
+				List<Doc> docs = docService.getAllDocs();
+				
+				for(Doc doc : docs){
+					Document document = new Document();
+					document.add(new Field("id", doc.getId()+"", TextField.TYPE_STORED));
+					document.add(new Field("title", doc.getTitle(), TextField.TYPE_STORED));
+					document.add(new Field("content", doc.getContent(), TextField.TYPE_STORED));
+					document.add(new Field("tag", doc.getTags(), TextField.TYPE_STORED));
+					document.add(new Field("url", doc.getUrl(), TextField.TYPE_STORED));
+					indexWriter.addDocument(document);
+				}
+				
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				try
+				{
+					if(indexWriter != null) indexWriter.close();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			rwLock.writeLock().unlock();
+			updateIndexLastModifiedTime();
+		}
+	}
+	
+	public static String getIndexLastModifiedTime(){
+		if(lastModifiedTime != null){
+			lastModifiedTime = sysDao.getProperty(SystemConfigProperties.INDEX_LAST_MODIFIED_TIME);
+			if(lastModifiedTime != null){
+				return lastModifiedTime;
+			}
+			
+		}
+		updateIndexLastModifiedTime();
+		
+		return lastModifiedTime;
+	}
+	
+	public static void updateIndexLastModifiedTime(){
+		lastModifiedTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		sysDao.setProperty(SystemConfigProperties.INDEX_LAST_MODIFIED_TIME,lastModifiedTime);
+	}
 	
 	/**
 	 * 创建索引
 	 */
 	public static void rebuildIndex()
 	{
-		IndexWriter indexWriter = null;
-		try
-		{
-			Directory directory = FSDirectory.open(FileSystems.getDefault().getPath(INDEX_PATH));
-			//Analyzer analyzer = new StandardAnalyzer();
-			Analyzer analyzer = new IKAnalyzer(true);
-			IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-			indexWriter = new IndexWriter(directory, indexWriterConfig);
-			indexWriter.deleteAll();// 清除以前的index
-			
-			// 得到所有的文档
-			List<Doc> docs = docService.getAllDocs();
-			
-			for(Doc doc : docs){
-				Document document = new Document();
-				document.add(new Field("id", doc.getId()+"", TextField.TYPE_STORED));
-				document.add(new Field("title", doc.getTitle(), TextField.TYPE_STORED));
-				document.add(new Field("content", doc.getContent(), TextField.TYPE_STORED));
-				document.add(new Field("tag", doc.getTags(), TextField.TYPE_STORED));
-				document.add(new Field("url", doc.getUrl(), TextField.TYPE_STORED));
-				indexWriter.addDocument(document);
-			}
-			
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				if(indexWriter != null) indexWriter.close();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+		new Thread(new BuildIndexRunner(rwLock)).start();
 	}
 	
 	/**
@@ -87,6 +135,7 @@ public class DocSearchUtil {
 		List<Doc> docs = new ArrayList<Doc>();
 		
 		DirectoryReader directoryReader = null;
+		rwLock.readLock().lock();
 		try
 		{
 			Directory directory = FSDirectory.open(FileSystems.getDefault().getPath(INDEX_PATH));
@@ -139,6 +188,8 @@ public class DocSearchUtil {
 				e.printStackTrace();
 			}
 		}
+		
+		rwLock.readLock().unlock();
 		return docs;
 	}
 
