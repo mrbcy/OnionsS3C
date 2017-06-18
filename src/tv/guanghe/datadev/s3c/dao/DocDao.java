@@ -19,4 +19,38 @@ public interface DocDao {
 	 */
 	List<Doc> getSearchResult(String keyword);
 
+	/**
+	 * 得到文档的总数
+	 * @return 文档总数
+	 */
+	int getDocNums();
+
+	/**
+	 * 按照分页的方式得到文档数据
+	 * @param startIndex 开始index
+	 * @param pageSize 
+	 * @return 
+	 */
+	List<Doc> getDocsByPage(int startIndex, int pageSize);
+
+	/**
+	 * 根据id获得文档
+	 * @param docId 文档id
+	 * @return 没有对应的id返回null
+	 */
+	Doc getDocById(int docId);
+
+	/**
+	 * 添加文档
+	 * @param doc 文档对象
+	 */
+	void addDoc(Doc doc);
+
+	/**
+	 * 编辑文档
+	 * @param id 文档id
+	 * @param doc 文档对象
+	 */
+	void editDoc(int id, Doc doc);
+
 }

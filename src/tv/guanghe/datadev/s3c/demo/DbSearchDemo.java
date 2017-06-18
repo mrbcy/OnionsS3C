@@ -37,7 +37,7 @@ import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
 public class DbSearchDemo
 {
 	public static final DocService docService = new DocServiceImpl();
-	public static final String INDEX_PATH = "E:\\lucene_index2"; // 存放Lucene索引文件的位置
+	public static final String INDEX_PATH = "E:\\lucene_index"; // 存放Lucene索引文件的位置
 	
 	/**
 	 * 创建索引

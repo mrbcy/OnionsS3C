@@ -36,7 +36,7 @@ public class DocSearchUtil {
 	/**
 	 * 创建索引
 	 */
-	public static void creatIndex()
+	public static void rebuildIndex()
 	{
 		IndexWriter indexWriter = null;
 		try

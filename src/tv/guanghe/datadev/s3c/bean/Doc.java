@@ -1,11 +1,15 @@
 package tv.guanghe.datadev.s3c.bean;
 
 public class Doc {
+	public static final String DOC_TYPE_INTERNAL = "internal";
+	public static final String DOC_TYPE_EXTERNAL = "external";
+	
 	private int id;
 	private String title;
 	private String content;
 	private String url;
 	private String tags;
+	private String type;
 	
 	
 	public int getId() {
@@ -38,6 +42,13 @@ public class Doc {
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	
 	
 }
