@@ -49,4 +49,11 @@ public interface DocService {
 	 * @return 处理结果
 	 */
 	public DealResult editDoc(String docId, Doc doc);
+
+	/**
+	 * 删除文档，同时更新搜索索引
+	 * @param docId 文档id
+	 * @return 处理结果
+	 */
+	public DealResult deleteDoc(String docId);
 }

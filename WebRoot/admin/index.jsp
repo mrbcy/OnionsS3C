@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    <td>
 	                        <a title="编辑" class="mr-5" href="${pageContext.request.contextPath}/admin/AdminServlet?op=editDocUI&id=${doc.id}">编辑</a>
 	                        <a title="详情" class="mr-5">详情</a>
-	                        <a title="删除">删除</a>
+	                        <a title="删除" class="JopenMaskPanel" href="javascript:void(0);" onclick="setDeleteId(${doc.id});">删除</a>
 	                    </td>
 	                </tr>		
 				</c:forEach>
@@ -77,10 +77,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <!--开始::结束-->
 		</main>
 		<%@include file="/admin/commons/footer.jsp" %>
+		
+		<div class="mask"></div>
+		<div class="dialog">
+		
+			<div class="dialog-hd">
+				<strong class="lt-title">操作确认</strong>
+				<a class="rt-operate icon-remove JclosePanel" title="关闭"></a>
+			</div>
+			<div class="dialog-bd">
+				<!--start::-->
+				
+				<p>你确定要删除这个文档吗？</p>
+				
+				<!--end::-->
+			</div>
+			<div class="dialog-ft">
+				<form action="${pageContext.request.contextPath}/admin/AdminServlet" method="post">
+					
+					<input type="hidden" name="op" value="deleteDoc" style="display:none"/>
+					<input type="hidden" name="id" value="" id="inputDoc" style="display:none"/>
+					<input type="submit" class="btn btn-info" value="确认"/>
+					<input type="reset" class="btn btn-secondary JclosePanel" value="关闭" onclick="resetDeleteId();"/>
+				</form>
+				
+			</div>
+
+		
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
     $('#jumppagebutton').attr('class', 'btn btn-link');
+    function setDeleteId(docId){
+    	$("#inputDoc").val(docId);
+    	console.log($("#inputDoc").val());
+    }
+    function resetDeleteId(docId){
+    	$("#inputDoc").val();
+    	console.log($("#inputDoc").val());
+    }
 </script>
 </body>
 </html>

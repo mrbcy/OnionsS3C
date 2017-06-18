@@ -114,4 +114,20 @@ public class DocServiceImpl implements DocService{
 		return new DealResult();
 	}
 
+	@Override
+	public DealResult deleteDoc(String docId) {
+		if(docId == null || docId.trim().length() == 0){
+			return new DealResult(false, "未传入文档id");
+		}
+		try {
+			int id = Integer.parseInt(docId);
+			docDao.deleteDoc(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new DealResult(false, "删除文档过程中出现错误，请稍后重试...");
+		}
+		DocSearchUtil.rebuildIndex();
+		return new DealResult();
+	}
+
 }

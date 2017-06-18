@@ -53,4 +53,10 @@ public interface DocDao {
 	 */
 	void editDoc(int id, Doc doc);
 
+	/**
+	 * 删除文档
+	 * @param docId 文档id
+	 */
+	void deleteDoc(int docId);
+
 }

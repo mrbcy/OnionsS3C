@@ -43,6 +43,11 @@ public class AdminServlet extends HttpServlet {
 			}else if ("editDoc".equals(op)) {
 				// 编辑文档
 				editDoc(request, response);
+			}else if ("deleteDoc".equals(op)) {
+				// 删除文档
+				deleteDoc(request, response);
+			}else{
+				response.sendRedirect(request.getContextPath()+"/admin");
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -57,6 +62,25 @@ public class AdminServlet extends HttpServlet {
 		Doc doc = docService.getDocById(id);
 		request.setAttribute("doc",doc);
 		request.getRequestDispatcher("/admin/edit_doc.jsp").forward(request, response);
+
+	}
+	
+	private void deleteDoc(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		String docId = request.getParameter("id");
+		
+		if(docId == null || docId.trim().equals("")){
+			redirectFail(request, response, "删除文档失败", "未指定文档id", "/admin/index.jsp");
+			return;
+		}
+		
+		DealResult dealResult = docService.deleteDoc(docId);
+		if(dealResult.isSuccess()){
+			redirectSuccess(request, response, "删除文档成功", "搜索索引将在稍后更新完毕...", "/admin/index.jsp");
+		}else{
+			redirectFail(request, response, "删除文档失败", dealResult.getErrorDesc(), "/admin/index.jsp");
+		}
+		
 
 	}
 	

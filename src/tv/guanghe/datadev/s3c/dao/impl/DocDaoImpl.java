@@ -87,4 +87,14 @@ public class DocDaoImpl implements DocDao {
 		}
 	}
 
+	@Override
+	public void deleteDoc(int docId) {
+		try {
+			qr.update("delete from docs where id = ?",docId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
+
 }
