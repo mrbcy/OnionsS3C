@@ -8,6 +8,10 @@
     <filter-name>AllCharacterEncodingFilter</filter-name>
     <filter-class>tv.guanghe.datadev.s3c.filter.AllCharacterEncodingFilter</filter-class>
   </filter>
+  <filter>
+    <filter-name>AdminAuthFilter</filter-name>
+    <filter-class>tv.guanghe.datadev.s3c.filter.AdminAuthFilter</filter-class>
+  </filter>
   <servlet>
     <servlet-name>SearchServlet</servlet-name>
     <servlet-class>tv.guanghe.datadev.s3c.servlet.SearchServlet</servlet-class>
@@ -20,9 +24,17 @@
     <servlet-name>AdminServlet</servlet-name>
     <servlet-class>tv.guanghe.datadev.s3c.servlet.AdminServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PublicServlet</servlet-name>
+    <servlet-class>tv.guanghe.datadev.s3c.servlet.PublicServlet</servlet-class>
+  </servlet>
   <filter-mapping>
     <filter-name>AllCharacterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>AdminAuthFilter</filter-name>
+    <url-pattern>/admin/*</url-pattern>
   </filter-mapping>
   <servlet-mapping>
     <servlet-name>SearchServlet</servlet-name>
@@ -35,6 +47,10 @@
   <servlet-mapping>
     <servlet-name>DocCacheServlet</servlet-name>
     <url-pattern>/cache</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PublicServlet</servlet-name>
+    <url-pattern>/PublicServlet</url-pattern>
   </servlet-mapping>
   <display-name></display-name>	
   <welcome-file-list>

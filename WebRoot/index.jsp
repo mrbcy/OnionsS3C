@@ -1,8 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+
 
 <!DOCTYPE html>
 <html>
@@ -18,8 +21,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="header">				
 				<nav>
 					<ul>
-						<li><a href="#">登录</a></li>
-						<li></li>
+					<c:if test="${empty sessionScope.sysAdminName}">
+						<li><a href="${pageContext.request.contextPath}/login.jsp">登录</a></li>
+					</c:if>
+					<c:if test="${!empty sessionScope.sysAdminName}">
+						<li><a href="${pageContext.request.contextPath}/admin">${sessionScope.sysAdminName }</a></li>
+					</c:if>
+					
 						<li></li>
 						<li></li>
 					</ul>

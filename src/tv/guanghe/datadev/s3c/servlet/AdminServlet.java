@@ -60,6 +60,8 @@ public class AdminServlet extends HttpServlet {
 
 	}
 	
+	
+	
 	private void rebuildIndex(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
