@@ -12,7 +12,7 @@
 						<a href="${pageContext.request.contextPath}/admin/AdminServlet?op=rebuildIndex"><i class="icon-random"></i>重建索引</a>
 					</li>
 					<li>
-						<a><i class="icon-user"></i>管理员:<em>${adminName}</em></a>
+						<a><i class="icon-user"></i>管理员:<em>${sysAdminName}</em></a>
 					</li>
 					<li>
 						<a href="${pageContext.request.contextPath}/PublicServlet?op=logout" id="JsSignOut"><i class="icon-signout"></i>安全退出</a>
