@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				</div>
 				<form action="${pageContext.request.contextPath }/search" method="post">
-					<input type="text" name="keyword">
+					<input type="text" name="keyword" autofocus="autofocus">
 					<input type="submit" value="Search Docs">
 				</form>
 			</div>

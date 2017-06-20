@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<title>Onions S3C</title>
 		<link style="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/search_result_main.css">
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/icon/favicon.png">
+		<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 		<meta charset="UTF-8">
 	</head>
 	<body>
@@ -23,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div id="searchbar-container">
 						<form action="${pageContext.request.contextPath }/search" method="post">
-							<input type="text" id="searchbar" value="${keyword }" name="keyword">
+							<input type="text" id="searchbar" value="${keyword }" name="keyword" >
 							<input type="submit" value="Search" id="searchbutton">
 						</form>
 					</div>
@@ -64,7 +65,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</c:if>
 				
 			</div>	
-			
+			<script type="text/javascript">
+			$(function() {
+			    //获取焦点后光标在字符串后 
+				var t=$("#searchbar").val(); 
+				$("#searchbar").val("").focus().val(t); 
+			});
+				
+			</script>
 			
 			
 		</div>
