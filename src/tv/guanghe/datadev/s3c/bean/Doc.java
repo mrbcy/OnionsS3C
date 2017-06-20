@@ -8,7 +8,7 @@ public class Doc {
 	private String title;
 	private String content;
 	private String url;
-	private String tags;
+	private String tags = "";
 	private String type;
 	
 	
