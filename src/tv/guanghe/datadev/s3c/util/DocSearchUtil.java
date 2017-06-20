@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
@@ -28,8 +29,10 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
+import com.google.gson.FieldNamingPolicy;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import tv.guanghe.datadev.s3c.bean.Doc;
@@ -71,6 +74,9 @@ public class DocSearchUtil {
 				List<Doc> docs = docService.getAllDocs();
 				
 				for(Doc doc : docs){
+					if(doc.getTags() == null){
+						doc.setTags("");
+					}
 					Document document = new Document();
 					document.add(new Field("id", doc.getId()+"", TextField.TYPE_STORED));
 					document.add(new Field("title", doc.getTitle(), TextField.TYPE_STORED));
@@ -148,7 +154,10 @@ public class DocSearchUtil {
 			
 			String[] fields = {"title", "content", "tag"};
 			BooleanClause.Occur[] clauses = {BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD};
-			Query multiFieldQuery = MultiFieldQueryParser.parse(keyWord, fields, clauses, analyzer);
+			MultiFieldQueryParser multiParser1=new MultiFieldQueryParser(fields,analyzer);
+			multiParser1.setAllowLeadingWildcard(true);
+			Query multiFieldQuery = multiParser1.parse("*"+keyWord+"*");
+			
 			
 
 			TopDocs topDocs = indexSearcher.search(multiFieldQuery, 10000); // 搜索前10000条结果
