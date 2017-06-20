@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List; 
 
 import org.wltea.analyzer.cfg.Configuration;
-import org.wltea.analyzer.cfg.DefaultConfig;
+
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 /** 
@@ -25,9 +25,6 @@ public class WordUtil {
      * @return 
      */  
     private static List<Lexeme> doAnalyze(String keywords){ 
-    	Configuration cfg = DefaultConfig.getInstance();
-        System.out.println(cfg.getMainDictionary()); // 系统默认词库
-        System.out.println(cfg.getQuantifierDicionary());
         List<Lexeme> lexemes = new ArrayList<Lexeme>();  
         IKSegmenter ikSeg = new IKSegmenter(new StringReader(keywords) , true); 
         try{  
@@ -99,8 +96,9 @@ public class WordUtil {
     }
     
     public static void main(String[] args) {
-    	List<String> segments = getSegments("活跃用户数量真人秀教师布置作业数据");
+    	List<String> segments = getSegments("QQ");
     	for(String segment : segments){
+    		
     		System.out.println(segment);
     	}
     	
