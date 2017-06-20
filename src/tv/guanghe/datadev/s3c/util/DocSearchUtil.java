@@ -41,7 +41,7 @@ import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
 
 public class DocSearchUtil {
 	public static final DocService docService = new DocServiceImpl();
-	public static final String INDEX_PATH = "E:\\lucene_index"; // 存放Lucene索引文件的位置
+	public static final String INDEX_PATH = "lucene_index"; // 存放Lucene索引文件的位置
 	private static ReadWriteLock rwLock = new ReentrantReadWriteLock();
 	private static String lastModifiedTime;
 	private static SysDao sysDao = new SysDaoImpl();
