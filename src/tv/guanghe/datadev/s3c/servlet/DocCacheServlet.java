@@ -27,7 +27,7 @@ public class DocCacheServlet extends HttpServlet{
 		Doc doc = docService.getDocById(id);
 		List<String> segments = new ArrayList<String>();
 		
-		if(keyword != null){
+		if(keyword != null && keyword.trim().length() > 0){
 			segments = WordUtil.getSegments(keyword);
 			keyword = WordUtil.highLight(keyword, segments);
 		}

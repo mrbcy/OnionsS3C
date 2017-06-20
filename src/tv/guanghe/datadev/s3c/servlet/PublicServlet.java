@@ -7,9 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import tv.guanghe.datadev.s3c.bean.DealResult;
 import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
 import tv.guanghe.datadev.s3c.global.SystemConfigProperties;
+import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class PublicServlet extends HttpServlet{
 	private SysDao sysDao = new SysDaoImpl();
@@ -37,6 +41,9 @@ public class PublicServlet extends HttpServlet{
 			}else if ("logout".equals(op)) {
 				// 退出登录
 				logout(request, response);
+			}else if ("rebuildIndex".equals(op)) {
+				// 重建索引
+				rebuildIndex(request, response);
 			}else{
 				response.sendRedirect(request.getContextPath()+"/");
 			}
@@ -44,6 +51,26 @@ public class PublicServlet extends HttpServlet{
 			e.printStackTrace();
 			response.getWriter().write("服务器忙");
 		}
+	}
+	
+	private void rebuildIndex(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String token = request.getParameter("token");
+		String sysRebuildIndexToken = sysDao.getProperty(SystemConfigProperties.SYS_REBUILD_INDEX_TOKEN);
+		if(sysRebuildIndexToken == null || sysRebuildIndexToken.trim().length() == 0){
+			sysRebuildIndexToken = "5649497f8ded4b6e626a2c15";
+			sysDao.setProperty(SystemConfigProperties.SYS_REBUILD_INDEX_TOKEN, sysRebuildIndexToken);
+		}
+		DealResult dealResult = new DealResult(true,"操作成功,索引将在稍后被更新...");
+		if(token.equals(sysRebuildIndexToken)){
+			DocSearchUtil.rebuildIndex();
+		}else{
+			dealResult.setSuccess(false);
+			dealResult.setErrorDesc("操作未获得授权");
+		}
+		String jsonResult = new Gson().toJson(dealResult);
+		response.setContentType("application/json");
+		response.getWriter().write(jsonResult);
 	}
 	
 	private void logout(HttpServletRequest request, HttpServletResponse response)
