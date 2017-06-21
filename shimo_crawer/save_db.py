@@ -9,7 +9,7 @@ config = {
     'db': 's3c',
     'table': 'docs',
     'col': ['id', 'title', 'url', 'content', 'type', 'tags'],
-    'ip': '10.8.2.84',
+    'ip': 'localhost',
     'name': 'root',
     'passwd': 'sorry'
 }

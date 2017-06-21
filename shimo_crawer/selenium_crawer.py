@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 name_passwd = {
-    'name': '123456@126.com',
+    'name': '123456@163.com',
     'passwd': '123456'
 }
 
@@ -46,7 +46,7 @@ def get_cookies(driver):
 
 def main():
     url = 'https://shimo.im'
-    driver = webdriver.PhantomJS('/Users/one/Documents/phantomjs/bin/phantomjs')
+    driver = webdriver.PhantomJS()
     get_basic_info(driver, url, '/login')
     shimo_cookies = get_cookies(driver)
     driver.quit()

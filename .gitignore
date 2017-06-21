@@ -25,3 +25,7 @@ hs_err_pid*
 .settings
 .classpath
 WebRoot/WEB-INF/classes
+
+# Python
+*.pyc
+*/.idea/*

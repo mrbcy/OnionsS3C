@@ -1,10 +1,9 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import shimo_crawer.selenium_crawer as sc
-import shimo_crawer.txt_html as th
-import shimo_crawer.save_db as sb
-from bs4 import BeautifulSoup
+import selenium_crawer as sc
+import txt_html as th
+import save_db as sb
 import requests
 import re
 import os
@@ -15,9 +14,6 @@ def test_cookies(shimo_cookies):
     test_url = 'https://shimo.im/doc/yK1973TsCOEbR4Cv'  # 'https://shimo.im/doc/r19moXP5jucnSdu1'
     r = requests.get(test_url, cookies=shimo_cookies)
     print(r.url)
-    soup = BeautifulSoup(r.text, 'lxml')
-    print(soup.prettify())
-    print(soup.find('title').text)
     s_dict = resolve_html(r.text)
     print(s_dict['name'])
     print(s_dict['content'])

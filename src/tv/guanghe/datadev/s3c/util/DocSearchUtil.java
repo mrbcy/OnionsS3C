@@ -156,6 +156,7 @@ public class DocSearchUtil {
 			BooleanClause.Occur[] clauses = {BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD, BooleanClause.Occur.SHOULD};
 			MultiFieldQueryParser multiParser1=new MultiFieldQueryParser(fields,analyzer);
 			multiParser1.setAllowLeadingWildcard(true);
+			keyWord = keyWord.replaceAll("\\s+?", "* *");
 			Query multiFieldQuery = multiParser1.parse("*"+keyWord+"*");
 			
 			

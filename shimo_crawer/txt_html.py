@@ -7,6 +7,8 @@ import cgi
 
 
 def shimo_format(text):
+    if text.startswith("*"):
+        text = text[1:]
     text = split_code_apart(text)
     text = add_html_tags(text)
     return text
