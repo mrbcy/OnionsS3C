@@ -1,5 +1,8 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import traceback
+
+import time
 
 import selenium_crawer as sc
 import txt_html as th
@@ -8,6 +11,7 @@ import requests
 import re
 import os
 import codecs
+import sys
 
 
 def test_cookies(shimo_cookies):
@@ -86,6 +90,10 @@ def save_all(to_html, to_db):
     all_data = []
     for item in file_paths:
         all_data.append(get_file_info(item, cookies, to_html))
+        print(item)
+        time.sleep(1)
+
+    print("爬取数据成功...")
     if to_db:
         update_url = sb.get_now_sync()
         print(update_url)
@@ -104,4 +112,25 @@ def save_all(to_html, to_db):
 
 
 if __name__ == '__main__':
-    save_all(True, True)
+    if len(sys.argv) != 7:
+        print("usage: <shimo_user> <shimo_pwd> <db_ip> <db_user> <db_pwd> <notification_url>")
+        sys.exit(-1)
+    sc.name_passwd['name'] = sys.argv[1]
+    sc.name_passwd['passwd'] = sys.argv[0]
+    sb.config['ip'] = sys.argv[3]
+    sb.config['name'] = sys.argv[4]
+    sb.config['passwd'] = sys.argv[5]
+    notification_url = sys.argv[6]
+    sb.init_pool()
+
+
+    try:
+        save_all(True, True)
+        r = requests.get(notification_url + "&result=success")
+        print("成功")
+        print(r.text)
+    except Exception as e:
+        r = requests.get(notification_url + "&result=fail")
+        print(r.text)
+        print("失败")
+        traceback.print_stack()

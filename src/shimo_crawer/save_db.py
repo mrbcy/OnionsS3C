@@ -9,12 +9,15 @@ config = {
     'db': 's3c',
     'table': 'docs',
     'col': ['id', 'title', 'url', 'content', 'type', 'tags'],
-    'ip': 'localhost',
-    'name': 'root',
-    'passwd': 'sorry'
+    'ip': 'ip',
+    'name': 'name',
+    'passwd': 'passwd'
 }
+pool = None
 
-pool = PooledDB(pymysql, 5, host=config['ip'], user=config['name'],
+def init_pool():
+    global pool
+    pool = PooledDB(pymysql, 5, host=config['ip'], user=config['name'],
                 passwd=config['passwd'], db=config['db'], port=3306, charset='utf8')
 
 

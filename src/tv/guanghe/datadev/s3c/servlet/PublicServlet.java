@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import tv.guanghe.datadev.s3c.bean.DealResult;
 import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
-import tv.guanghe.datadev.s3c.global.SystemConfigProperties;
+import tv.guanghe.datadev.s3c.global.SCProp;
 import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class PublicServlet extends HttpServlet{
@@ -56,18 +56,25 @@ public class PublicServlet extends HttpServlet{
 	private void rebuildIndex(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String token = request.getParameter("token");
-		String sysRebuildIndexToken = sysDao.getProperty(SystemConfigProperties.SYS_REBUILD_INDEX_TOKEN);
+		String sysRebuildIndexToken = sysDao.getProperty(SCProp.SYS_REBUILD_INDEX_TOKEN);
+		
 		if(sysRebuildIndexToken == null || sysRebuildIndexToken.trim().length() == 0){
 			sysRebuildIndexToken = "5649497f8ded4b6e626a2c15";
-			sysDao.setProperty(SystemConfigProperties.SYS_REBUILD_INDEX_TOKEN, sysRebuildIndexToken);
+			sysDao.setProperty(SCProp.SYS_REBUILD_INDEX_TOKEN, sysRebuildIndexToken);
 		}
 		DealResult dealResult = new DealResult(true,"操作成功,索引将在稍后被更新...");
-		if(token.equals(sysRebuildIndexToken)){
-			DocSearchUtil.rebuildIndex();
+		String result = request.getParameter("result");
+		if(result.equals("success")){
+			if(token.equals(sysRebuildIndexToken)){
+				DocSearchUtil.rebuildIndex();
+			}else{
+				dealResult.setSuccess(false);
+				dealResult.setDesc("操作未获得授权");
+			}
 		}else{
-			dealResult.setSuccess(false);
-			dealResult.setErrorDesc("操作未获得授权");
+			dealResult.setDesc("已收到失败反馈，将尽快与管理员取得联系");
 		}
+		
 		String jsonResult = new Gson().toJson(dealResult);
 		response.setContentType("application/json");
 		response.getWriter().write(jsonResult);
@@ -97,12 +104,12 @@ public class PublicServlet extends HttpServlet{
 			redirectFail(request, response, "登录失败", "请输入密码", "/login.jsp");
 			return;
 		}
-		String sysAdminName = sysDao.getProperty(SystemConfigProperties.SYS_ADMIN_NAME);
-		String sysAdminPwd = sysDao.getProperty(SystemConfigProperties.SYS_ADMIN_PWD);
+		String sysAdminName = sysDao.getProperty(SCProp.SYS_ADMIN_NAME);
+		String sysAdminPwd = sysDao.getProperty(SCProp.SYS_ADMIN_PWD);
 		if(sysAdminName == null || sysAdminName.trim().length() == 0
 				|| sysAdminPwd == null || sysAdminPwd.trim().length() == 0){
-			sysDao.setProperty(SystemConfigProperties.SYS_ADMIN_NAME, adminName);
-			sysDao.setProperty(SystemConfigProperties.SYS_ADMIN_PWD, adminPwd);
+			sysDao.setProperty(SCProp.SYS_ADMIN_NAME, adminName);
+			sysDao.setProperty(SCProp.SYS_ADMIN_PWD, adminPwd);
 			redirectSuccess(request, response, "管理员密码已重置", "您刚才输入的用户名密码已经被保存，现在请重新登录...", "/login.jsp");
 			return;
 		}

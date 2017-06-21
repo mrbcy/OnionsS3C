@@ -1,7 +1,10 @@
 # !/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import json
 import time
+import traceback
+
+import requests
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -47,11 +50,34 @@ def get_cookies(driver):
 def main():
     url = 'https://shimo.im'
     driver = webdriver.PhantomJS()
-    get_basic_info(driver, url, '/login')
-    shimo_cookies = get_cookies(driver)
-    driver.quit()
+    shimo_cookies = get_cookies_from_file()
+
+    r = requests.get("https://shimo.im/desktop", cookies=shimo_cookies)
+    valid_cookie = True if r.text.find("数据组") >= 0 else False
+
+    if shimo_cookies is None or not valid_cookie:
+        get_basic_info(driver, url, '/login')
+        shimo_cookies = get_cookies(driver)
+        driver.quit()
+        save_cookies_to_file(shimo_cookies)
+
     print(shimo_cookies)
     return shimo_cookies
+
+
+def get_cookies_from_file():
+    try:
+        return json.load(open("shimo_cookie.dat"))
+    except Exception as e:
+        return None
+
+
+def save_cookies_to_file(shimo_cookies):
+    try:
+        json.dump(shimo_cookies, open("shimo_cookie.dat", 'w'))
+    except Exception as e:
+        traceback.print_stack()
+
 
 
 def test():

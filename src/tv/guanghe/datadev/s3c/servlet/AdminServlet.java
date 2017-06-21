@@ -83,7 +83,7 @@ public class AdminServlet extends HttpServlet {
 		if(dealResult.isSuccess()){
 			redirectSuccess(request, response, "删除文档成功", "搜索索引将在稍后更新完毕...", "/admin/index.jsp");
 		}else{
-			redirectFail(request, response, "删除文档失败", dealResult.getErrorDesc(), "/admin/index.jsp");
+			redirectFail(request, response, "删除文档失败", dealResult.getDesc(), "/admin/index.jsp");
 		}
 		
 
@@ -122,7 +122,7 @@ public class AdminServlet extends HttpServlet {
 		if(dealResult.isSuccess()){
 			redirectSuccess(request, response, "编辑文档成功", "搜索索引将在稍后更新完毕...", "/admin/index.jsp");
 		}else{
-			redirectFail(request, response, "编辑文档失败", dealResult.getErrorDesc(), "/admin/index.jsp");
+			redirectFail(request, response, "编辑文档失败", dealResult.getDesc(), "/admin/index.jsp");
 		}
 		
 
@@ -176,7 +176,7 @@ public class AdminServlet extends HttpServlet {
 		if(dealResult.isSuccess()){
 			redirectSuccess(request, response, "添加文档成功", "搜索索引将在稍后更新完毕...", "/admin/index.jsp");
 		}else{
-			redirectFail(request, response, "添加文档失败", dealResult.getErrorDesc(), "/admin/add_doc.jsp");
+			redirectFail(request, response, "添加文档失败", dealResult.getDesc(), "/admin/add_doc.jsp");
 		}
 	}
 

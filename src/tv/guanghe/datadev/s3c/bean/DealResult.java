@@ -20,12 +20,12 @@ public class DealResult {
 		this.isSuccess = isSuccess;
 	}
 
-	public String getErrorDesc() {
+	public String getDesc() {
 		return errorDesc;
 	}
 
-	public void setErrorDesc(String errorDesc) {
-		this.errorDesc = errorDesc;
+	public void setDesc(String desc) {
+		this.errorDesc = desc;
 	}
 	
 	

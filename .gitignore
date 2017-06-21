@@ -28,4 +28,6 @@ WebRoot/WEB-INF/classes
 
 # Python
 *.pyc
-*/.idea/*
+*/__pycache__
+src/shimo_crawer/.idea/*
+*.dat

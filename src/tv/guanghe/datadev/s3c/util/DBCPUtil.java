@@ -12,12 +12,18 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 
 public class DBCPUtil {
 	private static DataSource dataSource;
+	public static String dbUser;
+	public static String dbPwd;
+	public static String dbConnStr;
 	static{
 		try {
 
 			InputStream in = DBCPUtil.class.getClassLoader().getResourceAsStream("dbcpconfig.properties");
 			Properties props = new Properties();
 			props.load(in);
+			dbUser = props.getProperty("username");
+			dbPwd = props.getProperty("password");
+			dbConnStr = props.getProperty("url");
 			dataSource = BasicDataSourceFactory.createDataSource(props);
 		}  catch (Exception e) {
 			throw new ExceptionInInitializerError(e);

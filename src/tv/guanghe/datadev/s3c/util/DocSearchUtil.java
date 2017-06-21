@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -38,7 +39,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 import tv.guanghe.datadev.s3c.bean.Doc;
 import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
-import tv.guanghe.datadev.s3c.global.SystemConfigProperties;
+import tv.guanghe.datadev.s3c.global.SCProp;
 import tv.guanghe.datadev.s3c.service.DocService;
 import tv.guanghe.datadev.s3c.service.impl.DocServiceImpl;
 
@@ -109,7 +110,7 @@ public class DocSearchUtil {
 	
 	public static String getIndexLastModifiedTime(){
 		if(lastModifiedTime != null){
-			lastModifiedTime = sysDao.getProperty(SystemConfigProperties.INDEX_LAST_MODIFIED_TIME);
+			lastModifiedTime = sysDao.getProperty(SCProp.INDEX_LAST_MODIFIED_TIME);
 			if(lastModifiedTime != null){
 				return lastModifiedTime;
 			}
@@ -122,7 +123,7 @@ public class DocSearchUtil {
 	
 	public static void updateIndexLastModifiedTime(){
 		lastModifiedTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		sysDao.setProperty(SystemConfigProperties.INDEX_LAST_MODIFIED_TIME,lastModifiedTime);
+		sysDao.setProperty(SCProp.INDEX_LAST_MODIFIED_TIME,lastModifiedTime);
 	}
 	
 	/**
@@ -176,7 +177,9 @@ public class DocSearchUtil {
 					Doc doc = new Doc();
 					Document document = indexSearcher.doc(scoreDoc.doc);
 					String content = document.get("content");
-					doc.setContent(highlighter.getBestFragment(analyzer, "content", content));
+					doc.setContent(highlighter.getBestFragment(analyzer, "content", content.replace("<br>","\n")));
+					// 反转义
+					
 					doc.setTitle(document.get("title"));
 					doc.setUrl(document.get("url"));
 					int id = 0;

@@ -4,6 +4,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <!--石墨文档同步 监听器-->
+  <listener>
+    <listener-class>tv.guanghe.datadev.s3c.shimosync.ShimoSyncListener</listener-class>
+  </listener>
   <filter>
     <filter-name>AllCharacterEncodingFilter</filter-name>
     <filter-class>tv.guanghe.datadev.s3c.filter.AllCharacterEncodingFilter</filter-class>
