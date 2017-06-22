@@ -31,3 +31,6 @@ WebRoot/WEB-INF/classes
 */__pycache__
 src/shimo_crawer/.idea/*
 *.dat
+src/shimo_crawer/config/util.py
+src/shimo_crawer/send_fail_email.py
+src/shimo_crawer/config/__init__.py

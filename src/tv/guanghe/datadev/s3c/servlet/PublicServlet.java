@@ -13,6 +13,7 @@ import tv.guanghe.datadev.s3c.bean.DealResult;
 import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
 import tv.guanghe.datadev.s3c.global.SCProp;
+import tv.guanghe.datadev.s3c.shimosync.AlertMailUtil;
 import tv.guanghe.datadev.s3c.util.DocSearchUtil;
 
 public class PublicServlet extends HttpServlet{
@@ -72,6 +73,7 @@ public class PublicServlet extends HttpServlet{
 				dealResult.setDesc("操作未获得授权");
 			}
 		}else{
+			AlertMailUtil.increaseFail();
 			dealResult.setDesc("已收到失败反馈，将尽快与管理员取得联系");
 		}
 		

@@ -3,6 +3,7 @@ package tv.guanghe.datadev.s3c.shimosync;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.TimerTask;
 
 
@@ -16,6 +17,15 @@ public class ShimoSyncTask extends TimerTask{
     @Override
     public void run() {
         try {
+        	Calendar calendar = Calendar.getInstance();
+        	if(calendar.get(Calendar.HOUR_OF_DAY) < 9 || calendar.get(Calendar.HOUR_OF_DAY) > 19){
+        		System.out.println("夜间，不同步索引记录");
+        		return;
+        	}
+        	if(!AlertMailUtil.shouldContinue()){
+        		System.out.println("出错了很多次，我们不应该继续了...");
+        		return;
+        	}
              // 获得Python文件所在路径
         	File rootFile = new File(ShimoSyncTask.class.getClassLoader().getResource("/").getPath());
         	File pyFile = new File(rootFile, "shimo_crawer" + File.separator + "get_file.py");
@@ -32,7 +42,7 @@ public class ShimoSyncTask extends TimerTask{
         }
     }
     
-    public void runTimeMethod(String filePath,String[] args) {
+    public static void runTimeMethod(String filePath,String[] args) {
     	try {
     		String cmd="python3 "+filePath+" "+join(args, " ");
     		System.out.println(cmd);
@@ -58,7 +68,7 @@ public class ShimoSyncTask extends TimerTask{
     	}
     }
     
-    private  String join(String[] strs,String splitter) {
+    private static  String join(String[] strs,String splitter) {
         StringBuffer sb = new StringBuffer();
         for(String s:strs){
             sb.append(s+splitter);
