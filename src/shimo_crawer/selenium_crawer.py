@@ -3,6 +3,7 @@
 import json
 import time
 import traceback
+import sys
 
 import requests
 from selenium import webdriver
@@ -19,14 +20,20 @@ name_passwd = {
 def get_basic_info(driver, base_url, path):
     driver.get(base_url + path)
     print(driver.page_source)
-    print(driver.current_url)
+
+    print(name_passwd['name'])
+    print(name_passwd['passwd'])
+    before = driver.current_url
     email = driver.find_element_by_name('email')
     email.send_keys(name_passwd['name'])
+    time.sleep(2)
     password = driver.find_element_by_name('password')
     password.send_keys(name_passwd['passwd'])
     driver.find_element_by_id('bd-login-submit').click()
-    time.sleep(5)
-    print(driver.current_url)
+    time.sleep(15)
+    after = driver.current_url
+    if before == after:
+        print('登录失败')
 
 
 def get_desktop_info(driver, base_url, path):

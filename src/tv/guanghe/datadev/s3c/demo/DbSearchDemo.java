@@ -161,6 +161,6 @@ public class DbSearchDemo
 	{
 		DbSearchDemo demo = new DbSearchDemo();
 		demo.creatIndex();
-		demo.search("小杰");
+		demo.search("真人秀");
 	}
 }

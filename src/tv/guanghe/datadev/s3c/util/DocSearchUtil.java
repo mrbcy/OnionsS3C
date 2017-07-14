@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -139,6 +140,9 @@ public class DocSearchUtil {
 	 */
 	public static List<Doc> search(String keyWord)
 	{
+		List<String> segments = WordUtil.getSegments(keyWord);
+		keyWord = StringUtils.join(segments.toArray()," ");
+		System.out.println("查询分词结果：" + keyWord);
 		List<Doc> docs = new ArrayList<Doc>();
 		
 		DirectoryReader directoryReader = null;

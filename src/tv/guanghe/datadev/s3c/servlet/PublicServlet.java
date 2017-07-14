@@ -67,6 +67,7 @@ public class PublicServlet extends HttpServlet{
 		String result = request.getParameter("result");
 		if(result.equals("success")){
 			if(token.equals(sysRebuildIndexToken)){
+				AlertMailUtil.reset();
 				DocSearchUtil.rebuildIndex();
 			}else{
 				dealResult.setSuccess(false);
