@@ -56,7 +56,7 @@ def get_cookies(driver):
 
 def main():
     url = 'https://shimo.im'
-    driver = webdriver.PhantomJS()
+    driver = webdriver.PhantomJS('/home/master/chenyang/phantomjs-2.1.1/bin/phantomjs')
     shimo_cookies = get_cookies_from_file()
 
     r = requests.get("https://shimo.im/desktop", cookies=shimo_cookies)

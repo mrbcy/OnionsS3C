@@ -10,9 +10,11 @@ import java.util.TimerTask;
 import tv.guanghe.datadev.s3c.dao.SysDao;
 import tv.guanghe.datadev.s3c.dao.impl.SysDaoImpl;
 import tv.guanghe.datadev.s3c.global.SCProp;
+import tv.guanghe.datadev.s3c.util.DBCPUtil;
 
 public class ShimoSyncTask extends TimerTask{
 	private static SysDao sysDao = new SysDaoImpl();
+	public static String contextPath = "";
 	
     @Override
     public void run() {
@@ -33,7 +35,7 @@ public class ShimoSyncTask extends TimerTask{
             
             // 凑参数
             String[] args = {sysDao.getProperty(SCProp.SHIMO_USER),sysDao.getProperty(SCProp.SHIMO_PWD),
-            		"localhost","root","sorry",
+            		"localhost",DBCPUtil.dbUser,DBCPUtil.dbPwd,
             		"http://localhost:8080/OnionsS3C/PublicServlet?op=rebuildIndex&token=5649497f8ded4b6e626a2c15"};
             runTimeMethod(pyFile.getAbsolutePath(), args);
         } catch (Exception e) {

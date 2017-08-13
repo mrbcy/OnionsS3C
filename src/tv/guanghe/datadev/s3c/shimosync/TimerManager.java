@@ -13,7 +13,7 @@ public class TimerManager {
                 
          /*** 定制每日09:00-19:00每隔一小时执行方法 ***/
 
-         calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY) + 0);
+         calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
          calendar.set(Calendar.MINUTE, 0);
          calendar.set(Calendar.SECOND, 0);
           

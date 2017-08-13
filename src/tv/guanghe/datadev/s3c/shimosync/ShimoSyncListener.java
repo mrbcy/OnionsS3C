@@ -12,7 +12,7 @@ public class ShimoSyncListener implements ServletContextListener{
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		new TimerManager();
+//		new TimerManager();
 	}
 
 
